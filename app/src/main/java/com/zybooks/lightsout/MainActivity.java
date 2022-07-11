@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private Button[][] mButtons;
     private int mOnColor;
     private int mOffColor;
+    private static final String GAME_STATE = "gameState";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +38,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         mGame = new LightsOutGame();
-        startGame();
+        if (savedInstanceState == null) {
+            startGame();
+        }
+        else {
+            String gameState = savedInstanceState.getString(GAME_STATE);
+            mGame.restoreState(gameState);
+            setButtonColors();
+        }
     }
 
     private void startGame(){
@@ -78,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
 
     // TODO: Add method to respond to New Game button click
 }
