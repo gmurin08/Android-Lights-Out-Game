@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +18,9 @@ public class MainActivity extends AppCompatActivity {
     private Button[][] mButtons;
     private int mOnColor;
     private int mOffColor;
+    private int mOnColorId;
     private static final String GAME_STATE = "gameState";
+    private final int REQUEST_CODE_COLOR = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
         mOnColor = ContextCompat.getColor(this, R.color.colorOn);
         mOffColor = ContextCompat.getColor(this, R.color.colorOff);
-
+        mOnColorId = R.color.yellow;
         mButtons = new Button[LightsOutGame.NUM_ROWS][LightsOutGame.NUM_COLS];
 
         GridLayout gridLayout = findViewById(R.id.light_grid);
@@ -84,6 +88,22 @@ public class MainActivity extends AppCompatActivity {
                     mButtons[row][col].setBackgroundColor(mOffColor);
                 }
             }
+        }
+    }
+
+    public void onChangeColorClicked(View view) {
+        Intent intent = new Intent(this, ColorActivity.class);
+        intent.putExtra(ColorActivity.EXTRA_COLOR, mOnColorId);
+        startActivityForResult(intent, REQUEST_CODE_COLOR);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE_COLOR) {
+            mOnColorId = data.getIntExtra(ColorActivity.EXTRA_COLOR, R.color.yellow);
+            mOnColor = ContextCompat.getColor(this, mOnColorId);
+            setButtonColors();
         }
     }
 
