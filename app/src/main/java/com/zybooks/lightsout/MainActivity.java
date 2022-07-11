@@ -7,6 +7,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
             mGame.restoreState(gameState);
             setButtonColors();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(GAME_STATE, mGame.getState());
     }
 
     private void startGame(){
@@ -105,6 +112,11 @@ public class MainActivity extends AppCompatActivity {
             mOnColor = ContextCompat.getColor(this, mOnColorId);
             setButtonColors();
         }
+    }
+
+    public void onHelpClicked(View view) {
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
     }
 
 
