@@ -1,6 +1,6 @@
 # Android-Lights-Out-Game
 
-A simple Android app that uses MVC architecture to implement a lights out game
+An Android app that uses MVC architecture to implement a simple game
 
 ### The Model
 
